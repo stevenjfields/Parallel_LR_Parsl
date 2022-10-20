@@ -1,3 +1,6 @@
+# IMPORTANT! I used the initial data prep from here: https://www.kaggle.com/code/hely333/eda-regression
+# The goal of this product is to test parallelizing hyper-parameter tuning, not creating new models or EDA.
+
 import numpy as np 
 import pandas as pd 
 import itertools
