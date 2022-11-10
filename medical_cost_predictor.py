@@ -112,6 +112,8 @@ if __name__ == '__main__':
         i+=1
         results = pd.concat([results, scores])
 
+    results.to_csv("medical_costs_results.csv")
+
     best_train = results["train_score"].idxmax()
     best_test = results["test_score"].idxmax()
 

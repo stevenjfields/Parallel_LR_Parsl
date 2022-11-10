@@ -38,13 +38,13 @@ def build_parameter_lists():
     alpha = [0.1, 0.5, 1., 2., 5.]
     max_iter = [100, 1000, 10000]
     tol = [0.0001, 0.001, 0.01]
-    num_jobs = [1]
+    num_jobs = [-1]
 
     # Lasso hyper-parameters
     lasso_selection = ["cyclic", "random"]
 
     # Ridge hyper-parameters
-    ridge_solver = ['auto', 'svd', 'cholesky', 'lsqr', 'sparse_cg', 'sag', 'saga']
+    ridge_solver = ['auto']
 
     # Elasticnet
     l1_ratio = [0.1, 0.25, 0.5, 1.]
@@ -53,12 +53,13 @@ def build_parameter_lists():
     degree = [i for i in range(5)]
 
     # Decision Tree Regression
-    criterion = ["squared_error", "friedman_mse", "absolute_error", "poisson"]
-    splitter = ["best", "random"]
+    # Took out MAE error because it took forever
+    criterion = ["squared_error", "friedman_mse", "poisson"]
+    splitter = ["best"]
 
     # Ramdom Forest Regression
-    n_estimators = [2, 5, 10, 20, 50, 100, 250]
-    bootstrap = [True, False]
+    n_estimators = [2, 5, 10, 25, 50]
+    bootstrap = [True]
 
     baseline_lr = itertools.product(num_jobs)
     lasso_list = itertools.product(num_jobs, alpha, max_iter, tol, lasso_selection)
@@ -73,14 +74,19 @@ def build_parameter_lists():
 
     for i in baseline_lr:
         param_set.append(("baseline_lr", i))
+        pass
     for i in lasso_list:
         param_set.append(("lasso", i))
+        pass
     for i in ridge_list:
         param_set.append(("ridge", i))
+        pass
     for i in elastic_list:
         param_set.append(("elastic", i))
+        pass
     for i in polynomal_regression:
-        param_set.append(("polynomial_lr", i))
+        #param_set.append(("polynomial_lr", i))
+        pass
     for i in decision_tree_regression:
         param_set.append(("dt_regression", i))
     for i in random_forest_regression:
@@ -169,8 +175,11 @@ if __name__ == '__main__':
 
         i += 1
         results.append(score_values)
+        print(score_values)
+
     stop = timeit.default_timer()
 
+    results = pd.DataFrame(results)
     best_train = results["train_score"].idxmax()
     best_test = results["test_score"].idxmax()
 
