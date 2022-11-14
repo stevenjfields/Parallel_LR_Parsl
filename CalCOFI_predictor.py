@@ -16,9 +16,10 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import train_test_split
 import timeit
 from configs.local import local_threading
+from configs.high_throughput import local
 
 parsl.clear()
-parsl.load(local_threading(6))
+parsl.load(local())
 
 def data_prep():
     calcofi = pd.read_csv("./datasets/bottle.csv")
